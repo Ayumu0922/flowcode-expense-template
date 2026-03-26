@@ -1,17 +1,28 @@
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import { useExpenseStore, expenseCategories } from '../store/expenseStore';
+import { useToast } from '../components/ui/Toast';
+import { useConfirm } from '../components/ui/ConfirmDialog';
 
 const statusConfig: Record<string, { label: string; color: string }> = {
   draft: { label: '下書き', color: 'bg-zinc-500/10 text-zinc-400' },
   pending: { label: '承認待ち', color: 'bg-amber-500/10 text-amber-400' },
-  approved: { label: '承認済み', color: 'bg-emerald-500/10 text-emerald-400' },
+  approved: { label: '承認済み', color: 'bg-accent-500/10 text-accent-400' },
   rejected: { label: '却下', color: 'bg-red-500/10 text-red-400' },
 };
 
 export default function ExpenseListPage() {
   const { expenses, deleteExpense } = useExpenseStore();
+  const { showToast } = useToast();
+  const { confirm } = useConfirm();
   const [filter, setFilter] = useState<string | null>(null);
+
+  const handleDelete = async (id: string) => {
+    const ok = await confirm({ title: '申請を削除', message: 'この申請を削除してもよろしいですか？', confirmLabel: '削除', variant: 'danger' });
+    if (!ok) return;
+    deleteExpense(id);
+    showToast('申請を削除しました', 'success');
+  };
 
   const filtered = filter ? expenses.filter((e) => e.status === filter) : expenses;
 
@@ -22,9 +33,9 @@ export default function ExpenseListPage() {
         <p className="text-sm text-zinc-500">{expenses.length}件の申請</p>
       </div>
       <div className="flex gap-2">
-        <button onClick={() => setFilter(null)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!filter ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'}`}>すべて</button>
+        <button onClick={() => setFilter(null)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!filter ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-white'}`}>すべて</button>
         {Object.entries(statusConfig).map(([key, { label }]) => (
-          <button key={key} onClick={() => setFilter(key)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${filter === key ? 'bg-emerald-500/10 text-emerald-400' : 'text-zinc-400 hover:text-white'}`}>{label}</button>
+          <button key={key} onClick={() => setFilter(key)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${filter === key ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-white'}`}>{label}</button>
         ))}
       </div>
       <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden">
@@ -45,7 +56,7 @@ export default function ExpenseListPage() {
                 <td className="px-5 py-3 text-sm font-semibold text-white">¥{e.amount.toLocaleString()}</td>
                 <td className="px-5 py-3 text-sm text-zinc-500">{e.date}</td>
                 <td className="px-5 py-3"><span className={`text-xs px-2 py-0.5 rounded-full ${statusConfig[e.status].color}`}>{statusConfig[e.status].label}</span></td>
-                <td className="px-5 py-3"><button onClick={() => deleteExpense(e.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button></td>
+                <td className="px-5 py-3"><button onClick={() => handleDelete(e.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button></td>
               </tr>
             ))}
           </tbody>

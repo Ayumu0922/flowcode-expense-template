@@ -18,7 +18,7 @@ export default function ReportPage() {
       <h1 className="text-xl font-bold text-white">レポート</h1>
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5"><p className="text-xs text-zinc-500 mb-1">総申請額</p><p className="text-2xl font-bold text-white">¥{total.toLocaleString()}</p></div>
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5"><p className="text-xs text-zinc-500 mb-1">承認済み</p><p className="text-2xl font-bold text-emerald-400">¥{approved.toLocaleString()}</p></div>
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5"><p className="text-xs text-zinc-500 mb-1">承認済み</p><p className="text-2xl font-bold text-accent-400">¥{approved.toLocaleString()}</p></div>
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5"><p className="text-xs text-zinc-500 mb-1">承認待ち</p><p className="text-2xl font-bold text-amber-400">¥{pending.toLocaleString()}</p></div>
       </div>
       <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
@@ -27,7 +27,7 @@ export default function ReportPage() {
           {byCategory.map((c) => (
             <div key={c.category}>
               <div className="flex justify-between text-sm mb-1"><span className="text-zinc-300">{c.category} ({c.count}件)</span><span className="text-white font-semibold">¥{c.amount.toLocaleString()}</span></div>
-              <div className="w-full bg-zinc-800 rounded-full h-2"><div className="h-2 rounded-full bg-emerald-500 transition-all" style={{ width: `${(c.amount / total) * 100}%` }} /></div>
+              <div className="w-full bg-zinc-800 rounded-full h-2"><div className="h-2 rounded-full bg-accent-500 transition-all" style={{ width: `${(c.amount / total) * 100}%` }} /></div>
             </div>
           ))}
         </div>
