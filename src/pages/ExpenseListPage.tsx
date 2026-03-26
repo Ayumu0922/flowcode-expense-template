@@ -32,13 +32,13 @@ export default function ExpenseListPage() {
   return (
     <PageTransition className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-white">申請一覧</h1>
+        <h1 className="text-xl font-bold text-foreground">申請一覧</h1>
         <p className="text-sm text-zinc-500">{expenses.length}件の申請</p>
       </div>
       <div className="flex gap-2">
-        <button onClick={() => setFilter(null)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!filter ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-white'}`}>すべて</button>
+        <button onClick={() => setFilter(null)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${!filter ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-foreground'}`}>すべて</button>
         {Object.entries(statusConfig).map(([key, { label }]) => (
-          <button key={key} onClick={() => setFilter(key)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${filter === key ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-white'}`}>{label}</button>
+          <button key={key} onClick={() => setFilter(key)} className={`px-3 py-1.5 rounded-lg text-sm font-medium ${filter === key ? 'bg-accent-500/10 text-accent-400' : 'text-zinc-400 hover:text-foreground'}`}>{label}</button>
         ))}
       </div>
       <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden">
@@ -54,9 +54,9 @@ export default function ExpenseListPage() {
           <tbody>
             {filtered.map((e) => (
               <tr key={e.id} className="border-b border-zinc-800/50 last:border-0 hover:bg-zinc-800/30 group">
-                <td className="px-5 py-3 text-sm text-white">{e.title}</td>
+                <td className="px-5 py-3 text-sm text-foreground">{e.title}</td>
                 <td className="px-5 py-3 text-sm text-zinc-400">{e.category}</td>
-                <td className="px-5 py-3 text-sm font-semibold text-white">¥{e.amount.toLocaleString()}</td>
+                <td className="px-5 py-3 text-sm font-semibold text-foreground">¥{e.amount.toLocaleString()}</td>
                 <td className="px-5 py-3 text-sm text-zinc-500">{e.date}</td>
                 <td className="px-5 py-3"><span className={`text-xs px-2 py-0.5 rounded-full ${statusConfig[e.status].color}`}>{statusConfig[e.status].label}</span></td>
                 <td className="px-5 py-3"><button onClick={() => handleDelete(e.id)} className="opacity-0 group-hover:opacity-100 text-zinc-500 hover:text-red-400"><Trash2 className="w-4 h-4" /></button></td>
@@ -64,7 +64,7 @@ export default function ExpenseListPage() {
             ))}
           </tbody>
         </table>
-        {filtered.length === 0 && <EmptyState icon={Receipt} title="該当する申請がありません" description="条件を変更するか、新しい申請を作成してください" action={<Link to="/create" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white text-sm font-medium rounded-lg transition-colors">新規申請</Link>} />}
+        {filtered.length === 0 && <EmptyState icon={Receipt} title="該当する申請がありません" description="条件を変更するか、新しい申請を作成してください" action={<Link to="/create" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-on-accent text-sm font-medium rounded-lg transition-colors">新規申請</Link>} />}
       </div>
     </PageTransition>
   );
