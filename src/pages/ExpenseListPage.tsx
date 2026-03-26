@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Trash2, Receipt } from 'lucide-react';
 import { useExpenseStore, expenseCategories } from '../store/expenseStore';
+import PageTransition from '../components/ui/PageTransition';
+import EmptyState from '../components/ui/EmptyState';
 import { useToast } from '../components/ui/Toast';
 import { useConfirm } from '../components/ui/ConfirmDialog';
 
@@ -27,7 +30,7 @@ export default function ExpenseListPage() {
   const filtered = filter ? expenses.filter((e) => e.status === filter) : expenses;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <PageTransition className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold text-white">申請一覧</h1>
         <p className="text-sm text-zinc-500">{expenses.length}件の申請</p>
@@ -61,8 +64,8 @@ export default function ExpenseListPage() {
             ))}
           </tbody>
         </table>
-        {filtered.length === 0 && <p className="text-center text-zinc-500 py-8">該当する申請がありません</p>}
+        {filtered.length === 0 && <EmptyState icon={Receipt} title="該当する申請がありません" description="条件を変更するか、新しい申請を作成してください" action={<Link to="/create" className="inline-flex items-center gap-2 px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white text-sm font-medium rounded-lg transition-colors">新規申請</Link>} />}
       </div>
-    </div>
+    </PageTransition>
   );
 }

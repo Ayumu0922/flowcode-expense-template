@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
 import { useExpenseStore, expenseCategories } from '../store/expenseStore';
+import PageTransition from '../components/ui/PageTransition';
 
 export default function ReportPage() {
   const { expenses } = useExpenseStore();
@@ -14,7 +14,7 @@ export default function ReportPage() {
   })).filter((c) => c.count > 0);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto space-y-6">
+    <PageTransition className="max-w-3xl mx-auto space-y-6">
       <h1 className="text-xl font-bold text-white">レポート</h1>
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5"><p className="text-xs text-zinc-500 mb-1">総申請額</p><p className="text-2xl font-bold text-white">¥{total.toLocaleString()}</p></div>
@@ -32,6 +32,6 @@ export default function ReportPage() {
           ))}
         </div>
       </div>
-    </motion.div>
+    </PageTransition>
   );
 }

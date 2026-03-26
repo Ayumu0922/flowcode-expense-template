@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useExpenseStore, expenseCategories } from '../store/expenseStore';
+import PageTransition from '../components/ui/PageTransition';
 import { useToast } from '../components/ui/Toast';
 
 export default function CreateExpensePage() {
@@ -19,7 +19,7 @@ export default function CreateExpensePage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl mx-auto">
+    <PageTransition className="max-w-2xl mx-auto">
       <h1 className="text-xl font-bold text-white mb-6">経費申請</h1>
       <form onSubmit={handleSubmit} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 space-y-4">
         <div><label className="text-xs text-zinc-500 block mb-1">件名</label>
@@ -42,6 +42,6 @@ export default function CreateExpensePage() {
           <textarea value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} rows={3} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-accent-500/50 resize-none" /></div>
         <button type="submit" className="bg-accent-600 hover:bg-accent-500 text-white px-6 py-2.5 rounded-lg text-sm font-medium transition-colors">申請する</button>
       </form>
-    </motion.div>
+    </PageTransition>
   );
 }
